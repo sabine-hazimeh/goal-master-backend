@@ -11,7 +11,7 @@ class UpdateFinanceGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateFinanceGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "income" => "sometimes|numeric",
+            "savings" => "sometimes|numeric",
+            "expenses" => "sometimes|numeric",
+            "target" => "sometimes|numeric",
+            "target_date" => "sometimes|date",
         ];
     }
 }
