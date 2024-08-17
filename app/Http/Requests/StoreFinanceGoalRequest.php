@@ -22,7 +22,12 @@ class StoreFinanceGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "income" => "required|numeric",
+            "savings" => "required|numeric",
+            "expenses" => "required|numeric",
+            "target" => "required|numeric",
+            "target_date" => "required|date",
+            'type' => 'required|string|in:finance', 
         ];
     }
 }
