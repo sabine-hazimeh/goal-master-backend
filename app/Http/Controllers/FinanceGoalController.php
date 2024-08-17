@@ -13,7 +13,8 @@ class FinanceGoalController extends Controller
      */
     public function index()
     {
-        //
+        $financeGoal = FinanceGoal::all();
+        return response()->json(["finance goal" => $financeGoal],200);
     }
 
     /**
