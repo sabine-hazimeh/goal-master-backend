@@ -75,4 +75,18 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
+    /**
+     * Get the authenticated user's profile.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function profile(Request $request)
+    {
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Return the user's profile information
+        return response()->json($user);
+    }
 }
