@@ -67,16 +67,26 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
+    
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        $credentials = request(['email', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
+    
+        $credentials = $request->only('email', 'password');
+    
+        try {
+            $token = JWTAuth::attempt($credentials);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'Could not create token'], 500);
+        }
+    
+        if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+    
         return $this->respondWithToken($token);
     }
+    
     public function logout()
     {
         Auth::logout();
