@@ -15,6 +15,9 @@ class CheckAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (!auth()->user() && !$request->bearerToken()) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
         return $next($request);
     }
 }
