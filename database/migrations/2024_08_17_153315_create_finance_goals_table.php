@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('finance_goals', function (Blueprint $table) {
             $table->id();
+            $table->integer('income');
+            $table->integer('savings');
+            $table->integer('expenses');
+            $table->integer('target');
+            $table->date('target_date');
+            $table->unsignedBigInteger('goal_id');
+            $table->foreign('goal_id')->references('id')->on('goals')->onDelete('cascade')->onUpdate("cascade");
             $table->timestamps();
         });
     }
