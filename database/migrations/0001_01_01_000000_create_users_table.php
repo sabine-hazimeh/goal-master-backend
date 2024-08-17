@@ -17,6 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['user', 'admin','consultant'])->default('user');
+            $table->string('profile_photo')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('description')->nullable();
+            $table->integer('experience')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -45,5 +50,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+ 
     }
 };
