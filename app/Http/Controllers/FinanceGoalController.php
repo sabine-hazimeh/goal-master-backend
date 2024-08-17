@@ -49,20 +49,14 @@ class FinanceGoalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(FinanceGoal $financeGoal)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFinanceGoalRequest $request, FinanceGoal $financeGoal)
+    public function update(UpdateFinanceGoalRequest $request, FinanceGoal $finance)
     {
-        //
+        $finance -> update($request->validated());
+        return response ()->json(["finance goal" => $finance], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
