@@ -6,6 +6,8 @@ use App\Models\FinanceGoal;
 use App\Models\Goal;
 use App\Http\Requests\StoreFinanceGoalRequest;
 use App\Http\Requests\UpdateFinanceGoalRequest;
+use Illuminate\Support\Facades\Log;
+
 
 class FinanceGoalController extends Controller
 {
@@ -40,10 +42,17 @@ class FinanceGoalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FinanceGoal $financeGoal)
-    {
-        //
+public function show($id)
+{
+    $financeGoal = FinanceGoal::find($id);
+
+    if (!$financeGoal) {
+        return response()->json(['message' => 'Not Found'], 404);
     }
+
+    return response()->json(["finance goal" => $financeGoal], 200);
+}
+
 
     /**
      * Show the form for editing the specified resource.
