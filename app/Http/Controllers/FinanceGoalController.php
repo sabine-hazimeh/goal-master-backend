@@ -42,17 +42,11 @@ class FinanceGoalController extends Controller
     /**
      * Display the specified resource.
      */
-public function show($id)
-{
-    $financeGoal = FinanceGoal::find($id);
+    public function show(FinanceGoal $finance)
+    {
 
-    if (!$financeGoal) {
-        return response()->json(['message' => 'Not Found'], 404);
+        return response()->json(["finance goal" => $finance],200);
     }
-
-    return response()->json(["finance goal" => $financeGoal], 200);
-}
-
 
     /**
      * Show the form for editing the specified resource.
