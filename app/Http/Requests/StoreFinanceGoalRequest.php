@@ -27,7 +27,6 @@ class StoreFinanceGoalRequest extends FormRequest
             "expenses" => "required|numeric",
             "target" => "required|numeric",
             "target_date" => "required|date",
-            'type' => 'required|string|in:finance', 
         ];
     }
 }
