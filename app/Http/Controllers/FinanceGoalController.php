@@ -61,8 +61,14 @@ class FinanceGoalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FinanceGoal $financeGoal)
+    public function destroy(FinanceGoal $finance)
     {
-        //
+        $goal = Goal::where('id', $finance->goal_id)->first();
+        $finance->delete();
+        if ($goal) {
+            $goal->delete();
+        }
+        return response()->json(["message" => "FinanceGoal and corresponding Goal deleted successfully"], 200);
     }
+    
 }
