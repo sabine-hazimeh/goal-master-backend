@@ -8,5 +8,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('checkAuth')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
+    Route::get('/logout', [AuthController::class, 'logout']);
    
 });
