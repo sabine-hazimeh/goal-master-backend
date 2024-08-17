@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\FinanceGoal;
+use App\Models\Goal;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FinanceGoal>
  */
