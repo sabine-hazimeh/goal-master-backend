@@ -17,7 +17,8 @@ class GoalFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "type" => $this->faker->randomElement(['finance','health','education']),
+            "user_id" => User::inRandomOrder()->first()->id,
         ];
     }
 }
