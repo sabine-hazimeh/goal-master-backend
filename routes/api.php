@@ -12,4 +12,4 @@ Route::middleware('checkAuth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
    
 });
-Route::apiResource('finance', FinanceGoalController::class);
+Route::apiResource('finance', FinanceGoalController::class)->middleware('checkAuth');
