@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
+            $table->enum('type',['finance','health','education']);
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate("cascade");
             $table->timestamps();
         });
     }
