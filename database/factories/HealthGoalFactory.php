@@ -17,7 +17,15 @@ class HealthGoalFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'age'-> $this->faker->numberBetween(1, 100),
+            'gender' => $this->faker->randomElement(['male', 'female']),
+            'height' => $this->faker->numberBetween(1, 200),
+            'current_weight' => $this->faker->numberBetween(1, 150),
+            'desired_weight' => $this->faker->numberBetween(1, 100),
+            'medical_condition' => $this->faker->sentence(),
+            'time_horizon' => $this->faker->date(),
+            'goal_id' => Goal::inRandomOrder()->first()->id,
+
         ];
     }
 }
