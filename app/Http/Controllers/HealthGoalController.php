@@ -41,19 +41,12 @@ class HealthGoalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(HealthGoal $healthGoal)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateHealthGoalRequest $request, HealthGoal $healthGoal)
+    public function update(UpdateHealthGoalRequest $request, HealthGoal $health)
     {
-        //
+        $health->update($request->validated());
+        return response()->json(["health goal" => $health], 200);
     }
 
     /**
