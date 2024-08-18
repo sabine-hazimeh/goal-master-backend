@@ -13,7 +13,8 @@ class HealthGoalController extends Controller
      */
     public function index()
     {
-        //
+        $healthGoal = HealthGoal::all();
+        return response()->json(["health goal" => $healthGoal],200);
     }
 
     /**
