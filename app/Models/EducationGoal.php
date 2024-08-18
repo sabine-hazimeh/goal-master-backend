@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class EducationGoal extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'goal',
+        'current_knowledge',
+        'available_days',
+        'available_hours',
+        'time_horizon',
+        'goal_id',
+    ];
+    
+
 }
