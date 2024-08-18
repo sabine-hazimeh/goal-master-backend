@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             GoalSeeder::class,
-            FinanceGoalSeeder::class
+            FinanceGoalSeeder::class,
+            HealthGoalSeeder::class
         ]);   
     }
 }
