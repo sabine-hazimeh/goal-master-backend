@@ -11,7 +11,7 @@ class StoreHealthGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,13 +22,14 @@ class StoreHealthGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'age' => 'required|integer',
-            'gender' => 'required|string',
-            'height' => 'required|integer',
-            'current_weight' => 'required|integer',
-            'desired_weight' => 'required|integer',
-            'medical_conditions' => 'required|string',
-            'time_horizon' => 'required|date',
+        'age' => 'required|integer|min:1|max:100',
+        'gender' => 'required|in:male,female',
+        'height' => 'required|numeric|min:0|max:300',
+        'current_weight' => 'required|numeric|min:0|max:200',
+        'desired_weight' => 'required|numeric|min:0|max:100',
+        'medical_conditions' => 'required|string',
+        'time_horizon' => 'required|date',
+        'goal_id' => 'required|exists:goals,id',
         ];
     }
 }
