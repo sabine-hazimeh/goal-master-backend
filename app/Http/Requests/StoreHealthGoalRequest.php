@@ -22,7 +22,13 @@ class StoreHealthGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'age' => 'required|integer',
+            'gender' => 'required|string',
+            'height' => 'required|integer',
+            'current_weight' => 'required|integer',
+            'desired_weight' => 'required|integer',
+            'medical_conditions' => 'required|string',
+            'time_horizon' => 'required|date',
         ];
     }
 }
