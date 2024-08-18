@@ -13,7 +13,8 @@ class EducationGoalController extends Controller
      */
     public function index()
     {
-        //
+        $educationGoal = EducationGoal::all();
+        return response()->json(["education goal" => $educationGoal],200);
     }
 
     /**
