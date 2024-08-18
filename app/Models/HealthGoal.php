@@ -18,4 +18,9 @@ class HealthGoal extends Model
         'medical_conditions',
         'goal_id',
     ];
+
+    public function goal()
+    {
+        return $this->belongsTo(Goal::class);
+    }
 }
