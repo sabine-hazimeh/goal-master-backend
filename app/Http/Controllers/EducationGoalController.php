@@ -44,19 +44,14 @@ class EducationGoalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EducationGoal $educationGoal)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEducationGoalRequest $request, EducationGoal $educationGoal)
+    public function update(UpdateEducationGoalRequest $request, EducationGoal $education)
     {
-        //
+        $education->update($request->validated());
+        return response()->json([
+            "education goal" => $education
+        ], 200);
     }
 
     /**
