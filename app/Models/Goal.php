@@ -16,7 +16,11 @@ class Goal extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function goal(){
+    public function financegoal(){
         return $this->hasOne(FinanceGoal::class);
     }
+    public function healthgoal(){
+        return $this->hasOne(HealthGoal::class);
+    }
+
 }
