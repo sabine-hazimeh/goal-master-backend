@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HealthGoal;
 use App\Http\Requests\StoreHealthGoalRequest;
 use App\Http\Requests\UpdateHealthGoalRequest;
-
+use App\Models\Goal;
 class HealthGoalController extends Controller
 {
     /**
@@ -18,19 +18,18 @@ class HealthGoalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreHealthGoalRequest $request)
     {
-        //
+        $goal = Goal::create([
+            'type' => "health",
+            'user_id' => auth()->id(),
+        ]);
+        $validatedData = $request->validated();
+        $validatedData['goal_id'] = $goal->id;
+        $healthGoal = HealthGoal::create($validatedData);
+        return response()->json(["health goal" => $healthGoal], 201);
     }
 
     /**
