@@ -11,7 +11,7 @@ class UpdateEducationGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateEducationGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'goal' => 'sometimes|string|max:255',
+            'current_knowledge' => 'sometimes|string|max:255',
+            'available_days' => 'sometimes|integer|min:1|max:7', 
+            'available_hours' => 'sometimes|integer|min:1|max:24',
+            'time_horizon' => 'sometimes|date',
         ];
     }
 }
