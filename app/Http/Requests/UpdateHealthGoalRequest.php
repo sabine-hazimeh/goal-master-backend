@@ -11,7 +11,7 @@ class UpdateHealthGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateHealthGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'age' => 'sometimes|integer|min:1|max:100',
+            'gender' => 'sometimes|in:male,female',
+            'height' => 'sometimes|numeric|min:0|max:300',
+            'current_weight' => 'sometimes|numeric|min:0|max:200',
+            'desired_weight' => 'sometimes|numeric|min:0|max:100',
+            'medical_conditions' => 'sometimes|string',
+            'time_horizon' => 'sometimes|date',
         ];
     }
 }
