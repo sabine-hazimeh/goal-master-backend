@@ -57,8 +57,13 @@ class EducationGoalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EducationGoal $educationGoal)
+    public function destroy(EducationGoal $education)
     {
-        //
+        $goal = Goal::where('id', $education->goal_id)->first();
+        $education->delete();
+        if ($goal) {
+            $goal->delete();
+        }
+        return response()->json(["message" => "EducationGoal and corresponding Goal deleted successfully"], 200);
     }
 }
