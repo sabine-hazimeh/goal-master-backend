@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('education_goals', function (Blueprint $table) {
             $table->id();
+            $table->string('goal');
+            $table->string('current_knowledge');
+            $table->integer('available-days');
+            $table->integer('available-hours');
+            $table->date('time_horizon');
+            $table->unsignedBigInteger('goal_id');
+            $table->foreign('goal_id')->references('id')->on('goals')->onDelete('cascade')->onUpdate("cascade");
             $table->timestamps();
         });
     }
