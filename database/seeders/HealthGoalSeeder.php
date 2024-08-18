@@ -12,6 +12,6 @@ class HealthGoalSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        HealthGoal::factory(50)->create();
     }
 }
