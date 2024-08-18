@@ -52,8 +52,13 @@ class HealthGoalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HealthGoal $healthGoal)
+    public function destroy(HealthGoal $health)
     {
-        //
+        $goal = Goal::where('id', $health->goal_id)->first();
+        $health->delete();
+        if ($goal) {
+            $goal->delete();
+        }
+        return response()->json(["message" => "HealthGoal and corresponding Goal deleted successfully"], 200);
     }
 }
