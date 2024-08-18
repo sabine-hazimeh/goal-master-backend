@@ -16,6 +16,9 @@ class EducationGoal extends Model
         'time_horizon',
         'goal_id',
     ];
-    
+    public function goal()
+    {
+        return $this->belongsTo(Goal::class);
+    }
 
 }
