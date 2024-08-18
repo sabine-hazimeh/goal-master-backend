@@ -11,7 +11,7 @@ class StoreEducationGoalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreEducationGoalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'goal' => 'required|string|max:255',
+            'current_knowledge' => 'required|string|max:255',
+            'available-days' => 'required|integer|min:1|max:7', 
+            'available-hours' => 'required|integer|min:1|max:24',
+            'time_horizon' => 'required|date',
+            'goal_id' => 'required|exists:goals,id',
         ];
     }
 }
