@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EducationGoal;
 use App\Http\Requests\StoreEducationGoalRequest;
 use App\Http\Requests\UpdateEducationGoalRequest;
-
+use App\Models\Goal;
 class EducationGoalController extends Controller
 {
     /**
@@ -18,20 +18,20 @@ class EducationGoalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreEducationGoalRequest $request)
     {
-        //
+        $goal = Goal::create([
+            'type' => "education",
+            'user_id' => auth()->id(),
+        ]);
+        $validatedData = $request->validated();
+        $validatedData['goal_id'] = $goal->id;
+        $educationGoal = EducationGoal::create($validatedData);
+        return response()->json(["education goal" => $educationGoal], 201);
     }
+
 
     /**
      * Display the specified resource.

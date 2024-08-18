@@ -27,7 +27,6 @@ class StoreEducationGoalRequest extends FormRequest
             'available_days' => 'required|integer|min:1|max:7', 
             'available_hours' => 'required|integer|min:1|max:24',
             'time_horizon' => 'required|date',
-            'goal_id' => 'required|exists:goals,id',
         ];
     }
     
