@@ -36,9 +36,11 @@ class EducationGoalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EducationGoal $educationGoal)
+    public function show(EducationGoal $education)
     {
-        //
+        return response()->json([
+            "education goal" => $education
+        ]);
     }
 
     /**
