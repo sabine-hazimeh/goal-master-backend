@@ -22,5 +22,8 @@ class Goal extends Model
     public function healthgoal(){
         return $this->hasOne(HealthGoal::class);
     }
+    public function educationgoal(){
+        return $this->hasOne(EducationGoal::class);
+    }
 
 }
