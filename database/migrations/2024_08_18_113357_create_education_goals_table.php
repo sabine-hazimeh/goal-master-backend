@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('goal');
             $table->string('current_knowledge');
-            $table->integer('available-days');
-            $table->integer('available-hours');
+            $table->integer('available_days');
+            $table->integer('available_hours');
             $table->date('time_horizon');
             $table->unsignedBigInteger('goal_id');
             $table->foreign('goal_id')->references('id')->on('goals')->onDelete('cascade')->onUpdate("cascade");
             $table->timestamps();
         });
+        
     }
 
     /**

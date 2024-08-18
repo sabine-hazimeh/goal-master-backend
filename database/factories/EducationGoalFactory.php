@@ -19,8 +19,8 @@ class EducationGoalFactory extends Factory
         return [
             'goal' => $this->faker->sentence(),
             'current_knowledge' => $this->faker->sentence(),
-            'available-days' => $this->faker->numberBetween(1, 7),
-            'available-hours' => $this->faker->numberBetween(1, 24),
+            'available_days' => $this->faker->numberBetween(1, 7),
+            'available_hours' => $this->faker->numberBetween(1, 24),
             'time_horizon' => $this->faker->date(),
             'goal_id' => Goal::inRandomOrder()->first()->id,
         ];
