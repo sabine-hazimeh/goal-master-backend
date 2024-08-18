@@ -35,9 +35,9 @@ class HealthGoalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HealthGoal $healthGoal)
+    public function show(HealthGoal $health)
     {
-        //
+        return response()->json(["health goal" => $health],200);
     }
 
     /**
