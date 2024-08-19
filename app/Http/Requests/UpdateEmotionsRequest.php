@@ -11,7 +11,7 @@ class UpdateEmotionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateEmotionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "type"=>"sometimes|in:manual,detected",
+            "emotion"=>"sometimes|string",
         ];
     }
 }
