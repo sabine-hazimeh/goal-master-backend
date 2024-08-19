@@ -17,7 +17,12 @@ class JournalsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "mood"=>$this->faker->randomElement(['good', 'bad', 'neutral']),
+            "productivity"=>$this->faker->randomInt(0,10),
+            "focus"=>$this->faker->randomInt(0,10),
+            "description"=>$this->faker->sentence(),
+            "emotion_id"=>Emotions::inRandomOrder()->first()->id,
+            "user_id"=>User::inRandomOrder()->first()->id,
         ];
     }
 }
