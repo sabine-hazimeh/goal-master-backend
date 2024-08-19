@@ -34,19 +34,12 @@ class EmotionsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Emotions $emotions)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmotionsRequest $request, Emotions $emotions)
+    public function update(UpdateEmotionsRequest $request, Emotions $emotion)
     {
-        //
+       $emotion->update($request->validated());
+       return response()->json(["emotions" => $emotion], 200);
     }
 
     /**
