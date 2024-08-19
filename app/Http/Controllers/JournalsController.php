@@ -13,7 +13,8 @@ class JournalsController extends Controller
      */
     public function index()
     {
-        //
+        $journals = Journals::all();
+        return response()->json(["journals" => $journals], 200);
     }
 
     /**
