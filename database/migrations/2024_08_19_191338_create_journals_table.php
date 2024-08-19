@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->string('mood');
-            $table->string('productivity');
-            $table->string('focus');
+            $table->integer('productivity');
+            $table->integer('focus');
             $table->string('description');
             $table->unsignedBigInteger('emotion_id');
             $table->foreign('emotion_id')->references('id')->on('emotions')->onDelete('cascade')->onUpdate("cascade");
