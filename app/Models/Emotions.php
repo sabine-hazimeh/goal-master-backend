@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Emotions extends Model
 {
     use HasFactory;
+    protected $fillable = ["emotion","type"];
 }
