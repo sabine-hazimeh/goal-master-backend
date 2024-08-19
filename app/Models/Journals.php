@@ -12,7 +12,9 @@ class Journals extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    
+    public function emotion(){
+        return $this->hasOne(Emotions::class);
+    }
    
 
 }
