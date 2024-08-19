@@ -17,7 +17,9 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+           "chat_id" => Chat::inRandomOrder()->first()->id,
+           "sender_id" => User::inRandomOrder()->first()->id,
+           "content" => $this->faker->sentence(),
         ];
     }
 }
