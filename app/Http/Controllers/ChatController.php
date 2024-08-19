@@ -35,19 +35,12 @@ class ChatController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Chat $chat)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateChatRequest $request, Chat $chat)
     {
-        //
+        $chat->update($request->validated());
+        return response()->json(["chat" => $chat], 200);
     }
 
     /**
