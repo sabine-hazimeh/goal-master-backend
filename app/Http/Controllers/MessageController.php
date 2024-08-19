@@ -31,7 +31,7 @@ class MessageController extends Controller
      */
     public function show(message $message)
     {
-        //
+       return response()->json(["message" => $message], 200);
     }
 
     /**
