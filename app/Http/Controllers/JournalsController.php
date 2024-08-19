@@ -36,9 +36,9 @@ class JournalsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Journals $journals)
+    public function show(Journals $journal)
     {
-        //
+        return response()->json(["journals" => $journal], 200);
     }
 
     /**
