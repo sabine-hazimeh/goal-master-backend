@@ -51,4 +51,10 @@ class MessageController extends Controller
         $message->delete();
         return response()->json(["message" => "Message deleted successfully"], 200);
     }
+    public function getMessagesByChatId($chat_id)
+    {
+        
+        $messages = Message::where('chat_id', $chat_id)->get();
+        return response()->json(["messages" => $messages], 200);
+    }
 }
