@@ -17,7 +17,8 @@ class EmotionsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            "type" => $this->faker->randomElement(['manual','detected']),
+            "emotion" => $this->faker->randomElement(['sad','happy','angry','surprised','disgusted','confused','scared','shy','bored']),
         ];
     }
 }
