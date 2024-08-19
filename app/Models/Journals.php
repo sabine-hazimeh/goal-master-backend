@@ -9,6 +9,9 @@ class Journals extends Model
 {
     use HasFactory;
     protected $fillable = ['mood', 'productivity', 'focus', 'description', 'emotion_id', 'user_id'];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
    
 
 }
