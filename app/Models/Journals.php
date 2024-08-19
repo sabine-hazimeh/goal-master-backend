@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Journals extends Model
 {
     use HasFactory;
+    protected $fillable = ['mood', 'productivity', 'focus', 'description', 'emotion_id', 'user_id'];
+   
+
 }
