@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             FinanceGoalSeeder::class,
             HealthGoalSeeder::class,
             EducationGoalSeeder::class,
-            ChatSeeder::class
+            ChatSeeder::class,
+            MessageSeeder::class
         ]);   
     }
 }
