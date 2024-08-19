@@ -27,3 +27,5 @@ Route::apiResource('chats', ChatController::class)
     ->middleware(['auth:api', 'checkAuth']);
 Route::apiResource('message', MessageController::class)
     ->middleware(['auth:api', 'checkAuth']);
+
+Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
