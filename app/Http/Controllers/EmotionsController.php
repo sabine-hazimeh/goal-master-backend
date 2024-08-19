@@ -45,8 +45,9 @@ class EmotionsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Emotions $emotions)
+    public function destroy(Emotions $emotion)
     {
-        //
+        $emotion->delete();
+        return response()->json(["message" => "Emotion deleted successfully"], 200);
     }
 }
