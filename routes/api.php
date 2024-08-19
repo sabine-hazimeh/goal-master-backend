@@ -32,3 +32,5 @@ Route::apiResource('message', MessageController::class)
 Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
 Route::apiResource('emotions', EmotionsController::class)
     ->middleware(['auth:api', 'checkAuth']);
+Route::apiResource('journal', EmotionsController::class)
+    ->middleware(['auth:api', 'checkAuth']);
