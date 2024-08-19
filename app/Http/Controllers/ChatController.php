@@ -31,7 +31,7 @@ class ChatController extends Controller
      */
     public function show(Chat $chat)
     {
-        //
+        return response()->json(["chat" => $chat],200);
     }
 
     /**
