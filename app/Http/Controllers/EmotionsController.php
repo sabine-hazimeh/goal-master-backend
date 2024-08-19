@@ -13,7 +13,8 @@ class EmotionsController extends Controller
      */
     public function index()
     {
-        //
+        $emotions = Emotions::all();
+        return response()->json(["emotions" => $emotions], 200);
     }
 
     /**
