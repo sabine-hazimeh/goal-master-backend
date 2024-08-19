@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             EducationGoalSeeder::class,
             ChatSeeder::class,
             MessageSeeder::class,
-            EmotionSeeder::class
+            EmotionsSeeder::class
         ]);   
     }
 }

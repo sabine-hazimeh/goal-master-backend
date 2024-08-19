@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Emotion;
+use App\Models\Emotions;
 class EmotionsSeeder extends Seeder
 {
     /**
@@ -12,6 +12,6 @@ class EmotionsSeeder extends Seeder
      */
     public function run(): void
     {
-        Emotion::factory(50)->create();
+        Emotions::factory(50)->create();
     }
 }
