@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('emotions', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->enum('type',['manual','detected']);
             $table->string('emotion');
             $table->timestamps();
         });
