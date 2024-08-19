@@ -35,19 +35,12 @@ class JournalsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Journals $journals)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJournalsRequest $request, Journals $journals)
+    public function update(UpdateJournalsRequest $request, Journals $journal)
     {
-        //
+       $journal->update($request->validated());
+       return response()->json(["journals" => $journal], 200);
     }
 
     /**
