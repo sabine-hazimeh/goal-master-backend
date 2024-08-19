@@ -11,7 +11,7 @@ class StoreEmotionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreEmotionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "type"=>"required|in:manual,detected",
+            "emotion"=>"required|string",
         ];
     }
 }
