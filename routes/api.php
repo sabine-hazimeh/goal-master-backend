@@ -8,6 +8,7 @@ use App\Http\Controllers\HealthGoalController;
 use App\Http\Controllers\EducationGoalController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\EmotionsController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -29,3 +30,5 @@ Route::apiResource('message', MessageController::class)
     ->middleware(['auth:api', 'checkAuth']);
 
 Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
+Route::apiResource('emotions', EmotionsController::class)
+    ->middleware(['auth:api', 'checkAuth']);
