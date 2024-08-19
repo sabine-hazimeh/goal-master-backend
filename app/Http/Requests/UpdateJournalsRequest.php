@@ -11,7 +11,7 @@ class UpdateJournalsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateJournalsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'mood' => 'sometimes|string|max:255',
+            'productivity' => 'sometimes|integer|min:1|max:10', 
+            'focus' => 'sometimes|integer|min:1|max:10', 
+            'description' => 'sometimes|string|max:1000', 
+            'emotion_id' => 'sometimes|exists:emotions,id',
+            'user_id' => 'sometimes|exists:users,id', 
         ];
     }
 }
