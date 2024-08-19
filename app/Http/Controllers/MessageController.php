@@ -35,19 +35,12 @@ class MessageController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(message $message)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdatemessageRequest $request, message $message)
     {
-        //
+        $message->update($request->validated());
+        return response()->json(["message" => $message], 200);
     }
 
     /**
