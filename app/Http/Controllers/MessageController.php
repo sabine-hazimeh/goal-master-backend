@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\message;
+use App\Models\Message;
 use App\Http\Requests\StoremessageRequest;
 use App\Http\Requests\UpdatemessageRequest;
 
@@ -53,7 +53,6 @@ class MessageController extends Controller
     }
     public function getMessagesByChatId($chat_id)
     {
-        
         $messages = Message::where('chat_id', $chat_id)->get();
         return response()->json(["messages" => $messages], 200);
     }
