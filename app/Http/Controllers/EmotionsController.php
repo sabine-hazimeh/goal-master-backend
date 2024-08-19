@@ -28,9 +28,9 @@ class EmotionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Emotions $emotions)
+    public function show(Emotions $emotion)
     {
-        //
+        return response()->json(["emotions" => $emotion], 200);
     }
 
     /**
