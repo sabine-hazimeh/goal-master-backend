@@ -13,8 +13,10 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $message = Message::all(); 
+        return response()->json(["message" => $message], 200);
     }
+
 
     /**
      * Show the form for creating a new resource.

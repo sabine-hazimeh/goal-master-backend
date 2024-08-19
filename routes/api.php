@@ -7,6 +7,7 @@ use App\Http\Controllers\FinanceGoalController;
 use App\Http\Controllers\HealthGoalController;
 use App\Http\Controllers\EducationGoalController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -23,4 +24,6 @@ Route::apiResource('health', HealthGoalController::class)
 Route::apiResource('education', EducationGoalController::class)
     ->middleware(['auth:api', 'checkAuth']);
 Route::apiResource('chats', ChatController::class)
+    ->middleware(['auth:api', 'checkAuth']);
+Route::apiResource('message', MessageController::class)
     ->middleware(['auth:api', 'checkAuth']);
