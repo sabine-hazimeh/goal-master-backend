@@ -48,6 +48,7 @@ class JournalsController extends Controller
      */
     public function destroy(Journals $journals)
     {
-        //
+        $journals->delete();
+        return response()->json(["message" => "Journals deleted successfully"], 200);
     }
 }
