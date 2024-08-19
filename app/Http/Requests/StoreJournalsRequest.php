@@ -22,7 +22,13 @@ class StoreJournalsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'mood' => 'required|string|max:255',
+            'productivity' => 'required|integer|min:1|max:10', 
+            'focus' => 'required|integer|min:1|max:10', 
+            'description' => 'required|string|max:1000', 
+            'emotion_id' => 'required|exists:emotions,id',
+            'user_id' => 'required|exists:users,id', 
         ];
+        
     }
 }
