@@ -9,6 +9,7 @@ use App\Http\Controllers\EducationGoalController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\EmotionsController;
+use App\Http\Controllers\JournalsController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -32,5 +33,5 @@ Route::apiResource('message', MessageController::class)
 Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
 Route::apiResource('emotions', EmotionsController::class)
     ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('journal', EmotionsController::class)
+Route::apiResource('journal', JournalsController::class)
     ->middleware(['auth:api', 'checkAuth']);
