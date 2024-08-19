@@ -13,7 +13,8 @@ class ChatController extends Controller
      */
     public function index()
     {
-        //
+        $chats=Chat::all();
+        return response()->json(["chats" => $chats],200);
     }
 
     /**
