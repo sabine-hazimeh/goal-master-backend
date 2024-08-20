@@ -22,7 +22,9 @@ class MessageController extends Controller
      */
     public function store(StoremessageRequest $request)
     {
-        $message = Message::create($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['sender_id'] = auth()->id();
+        $message = Message::create($validatedData);
         return response()->json(["message" => $message], 201);
     }
 
@@ -39,7 +41,9 @@ class MessageController extends Controller
      */
     public function update(UpdatemessageRequest $request, message $message)
     {
-        $message->update($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['sender_id'] = auth()->id();
+        $message->update($validatedData);
         return response()->json(["message" => $message], 200);
     }
 
