@@ -19,19 +19,14 @@ Route::middleware('checkAuth')->group(function () {
    
 });
 
-Route::apiResource('finance', FinanceGoalController::class)
-    ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('health', HealthGoalController::class)
-    ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('education', EducationGoalController::class)
-    ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('chats', ChatController::class)
-    ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('message', MessageController::class)
-    ->middleware(['auth:api', 'checkAuth']);
+Route::middleware(['auth:api', 'checkAuth'])->group(function () {
+    Route::apiResource('finance', FinanceGoalController::class);
+    Route::apiResource('health', HealthGoalController::class);
+    Route::apiResource('education', EducationGoalController::class);
+    Route::apiResource('chats', ChatController::class);
+    Route::apiResource('message', MessageController::class);
+    Route::apiResource('emotions', EmotionsController::class);
+    Route::apiResource('journal', JournalsController::class);
+});
 
-Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
-Route::apiResource('emotions', EmotionsController::class)
-    ->middleware(['auth:api', 'checkAuth']);
-Route::apiResource('journal', JournalsController::class)
-    ->middleware(['auth:api', 'checkAuth']);
+Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']) ->middleware(['auth:api', 'checkAuth']);
