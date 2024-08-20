@@ -22,7 +22,9 @@ class ChatController extends Controller
      */
     public function store(StoreChatRequest $request)
     {
-        $chat = Chat::create($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+        $chat = Chat::create($validatedData);
         return response()->json(["chat" => $chat], 201);
     }
 
@@ -39,7 +41,9 @@ class ChatController extends Controller
      */
     public function update(UpdateChatRequest $request, Chat $chat)
     {
-        $chat->update($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+        $chat->update($validatedData);
         return response()->json(["chat" => $chat], 200);
     }
 

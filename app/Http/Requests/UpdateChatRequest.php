@@ -22,7 +22,6 @@ class UpdateChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "user_id" => "sometimes|exists:users,id",
             "consultant_id" => "sometimes|exists:users,id",
         ];
     }
