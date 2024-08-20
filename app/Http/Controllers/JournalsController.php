@@ -22,9 +22,12 @@ class JournalsController extends Controller
      */
     public function store(StoreJournalsRequest $request)
     {
-        $journals = Journals::create($request->validated());
-        return response()->json(["journals" => $journals], 201);
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+        $journal = Journals::create($validatedData);
+        return response()->json(['journal' => $journal], 201);
     }
+    
 
     /**
      * Display the specified resource.
@@ -39,8 +42,11 @@ class JournalsController extends Controller
      */
     public function update(UpdateJournalsRequest $request, Journals $journal)
     {
-       $journal->update($request->validated());
-       return response()->json(["journals" => $journal], 200);
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+        $journal->update($validatedData);
+
+        return response()->json(["journals" => $journal], 200);
     }
 
     /**
