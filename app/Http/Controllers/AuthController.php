@@ -20,14 +20,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'nullable|string|in:user,consultant', 
+            'role' => 'nullable|string|in:user,consultant',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ];
-
+    
         if ($request->role === 'consultant') {
             $rules['phone_number'] = 'required|string';
             $rules['description'] = 'required|string';
@@ -39,9 +39,16 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+    
+       
+        $profilePhotoPath = null;
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $profilePhotoPath = $file->store('profile_photos', 'public');
+        }
+        
         $role = $request->role ?? 'user';
-
+    
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -50,6 +57,7 @@ class AuthController extends Controller
             'phone_number' => $role === 'consultant' ? $request->phone_number : null,
             'description' => $role === 'consultant' ? $request->description : null,
             'experience' => $role === 'consultant' ? $request->experience : null,
+            'profile_photo' => $profilePhotoPath, 
         ]);
     
         return response()->json(['message' => 'User created successfully'], 201);
