@@ -13,7 +13,7 @@ class Journals extends Model
         return $this->belongsTo(User::class);
     }
     public function emotion(){
-        return $this->hasOne(Emotions::class);
+        return $this->belongsTo(Emotions::class);
     }
    
 

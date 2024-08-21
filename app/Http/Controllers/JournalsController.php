@@ -35,7 +35,7 @@ class JournalsController extends Controller
         $validatedData['emotion_id'] = $emotion->id;
         $validatedData['user_id'] = auth()->id();
         $journal = Journals::create($validatedData);
-        
+
         return response()->json(['journal' => $journal, 'emotion' => $emotion], 201);
     }
     
