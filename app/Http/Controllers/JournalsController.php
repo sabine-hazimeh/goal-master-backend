@@ -57,4 +57,10 @@ class JournalsController extends Controller
         $journals->delete();
         return response()->json(["message" => "Journals deleted successfully"], 200);
     }
+    public function userJournals()
+    {
+        $userId = auth()->id(); 
+        $journals = Journals::where('user_id', $userId)->get();
+        return response()->json(['journals' => $journals], 200);
+    }
 }
