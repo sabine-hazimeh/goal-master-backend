@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Journals;
+use App\Models\Emotions;
 use App\Http\Requests\StoreJournalsRequest;
 use App\Http\Requests\UpdateJournalsRequest;
 
@@ -22,20 +23,22 @@ class JournalsController extends Controller
      */
     public function store(StoreJournalsRequest $request)
     {
+       
         $validatedData = $request->validated();
+        $emotionData = $request->validate([
+            'emotion' => 'required|string|max:255',
+        ]);
+        $emotion = Emotions::create([
+            'type' => 'manual',
+            'emotion' => $emotionData['emotion'],
+        ]);
+        $validatedData['emotion_id'] = $emotion->id;
         $validatedData['user_id'] = auth()->id();
         $journal = Journals::create($validatedData);
-        return response()->json(['journal' => $journal], 201);
+        
+        return response()->json(['journal' => $journal, 'emotion' => $emotion], 201);
     }
     
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Journals $journal)
-    {
-        return response()->json(["journals" => $journal], 200);
-    }
 
     /**
      * Update the specified resource in storage.

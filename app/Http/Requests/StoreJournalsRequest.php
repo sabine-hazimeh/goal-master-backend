@@ -26,7 +26,7 @@ class StoreJournalsRequest extends FormRequest
             'productivity' => 'required|integer|min:1|max:10', 
             'focus' => 'required|integer|min:1|max:10', 
             'description' => 'required|string|max:1000', 
-            'emotion_id' => 'required|exists:emotions,id',
+            
         ];
         
     }
