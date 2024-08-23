@@ -79,5 +79,13 @@ class ChatController extends Controller
 
         return response()->json(["chat" => $chat], 200);
     }
+    /**
+     * Display the messages of a chat.
+     */
+    public function getMessages($chat_id)
+    {
+        $messages = message::where('chat_id', $chat_id)->get();
+        return response()->json(["messages" => $messages], 200);
+    }
 
 }
