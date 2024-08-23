@@ -152,4 +152,8 @@ class AuthController extends Controller
         // Return the user's profile information
         return response()->json($user);
     }
+    public function DisplayConsultants(){
+        $consultants = User::where('role', 'consultant')->get();
+        return response()->json(["consultants: ",$consultants],200);
+    }
 }
