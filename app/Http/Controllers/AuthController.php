@@ -146,14 +146,17 @@ class AuthController extends Controller
      */
     public function profile(Request $request)
     {
-        // Retrieve the authenticated user
+        
         $user = Auth::user();
-
-        // Return the user's profile information
         return response()->json($user);
     }
     public function DisplayConsultants(){
         $consultants = User::where('role', 'consultant')->get();
         return response()->json(["consultants: ",$consultants],200);
+    }
+
+    public function DisplayUsers(){
+        $users = User::where('role', 'user')->get();
+        return response()->json(["users: ",$users],200);
     }
 }
