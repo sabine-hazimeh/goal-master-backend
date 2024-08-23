@@ -55,4 +55,29 @@ class ChatController extends Controller
         $chat->delete();
         return response()->json(["message" => "Chat deleted successfully"], 200);
     }
+     /**
+     * Get or create a chat between the authenticated user and the consultant.
+     */
+    public function getOrCreateChat(Request $request)
+    {
+        $consultant_id = $request->consultant_id;
+        $user_id = auth()->id();
+        $chat = Chat::where(function ($query) use ($consultant_id, $user_id) {
+            $query->where('consultant_id', $consultant_id)
+                ->where('user_id', $user_id);
+        })->orWhere(function ($query) use ($consultant_id, $user_id) {
+            $query->where('consultant_id', $user_id)
+                ->where('user_id', $consultant_id);
+        })->first();
+
+        if (!$chat) {
+            $chat = Chat::create([
+                'consultant_id' => $consultant_id,
+                'user_id' => $user_id,
+            ]);
+        }
+
+        return response()->json(["chat" => $chat], 200);
+    }
+
 }
