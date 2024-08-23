@@ -30,5 +30,6 @@ Route::middleware(['auth:api', 'checkAuth'])->group(function () {
     Route::get('consultants', [AuthController::class, 'DisplayConsultants']);
     Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
     Route::get('/user-journals', [JournalsController::class, 'userJournals']);
+    Route::post('/chat', [ChatController::class, 'getOrCreateChat']);
 });
 
