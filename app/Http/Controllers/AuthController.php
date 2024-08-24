@@ -49,6 +49,43 @@ class AuthController extends Controller
 
     return response()->json(['message' => 'User created successfully'], 201);
 }
+public function registerConsultant(Request $request)
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|unique:users',
+        'password' => 'required|string|min:8',
+        'phone_number' => 'required|string',
+        'description' => 'required|string',
+        'experience' => 'required|integer|min:0',
+        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
+
+    $profilePhotoPath = null;
+    if ($request->hasFile('profile_photo')) {
+        $file = $request->file('profile_photo');
+        $profilePhotoPath = $file->store('profile_photos', 'public');
+    }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'consultant',
+        'phone_number' => $request->phone_number,
+        'description' => $request->description,
+        'experience' => $request->experience,
+        'profile_photo' => $profilePhotoPath,
+    ]);
+
+    return response()->json(['message' => 'Consultant created successfully'], 201);
+}
 
     
     /**
