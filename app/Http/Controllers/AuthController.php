@@ -18,50 +18,38 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
-    {
-        $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
-            'role' => 'nullable|string|in:user,consultant',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
-        ];
-    
-        if ($request->role === 'consultant') {
-            $rules['phone_number'] = 'required|string';
-            $rules['description'] = 'required|string';
-            $rules['experience'] = 'required|integer|min:0';
-        }
-    
-        $validator = Validator::make($request->all(), $rules);
-    
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-    
-       
-        $profilePhotoPath = null;
-        if ($request->hasFile('profile_photo')) {
-            $file = $request->file('profile_photo');
-            $profilePhotoPath = $file->store('profile_photos', 'public');
-        }
-        
-        $role = $request->role ?? 'user';
-    
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $role,
-            'phone_number' => $role === 'consultant' ? $request->phone_number : null,
-            'description' => $role === 'consultant' ? $request->description : null,
-            'experience' => $role === 'consultant' ? $request->experience : null,
-            'profile_photo' => $profilePhotoPath, 
-        ]);
-    
-        return response()->json(['message' => 'User created successfully'], 201);
+    public function registerUser(Request $request)
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|unique:users',
+        'password' => 'required|string|min:8',
+        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
+
+    $profilePhotoPath = null;
+    if ($request->hasFile('profile_photo')) {
+        $file = $request->file('profile_photo');
+        $profilePhotoPath = $file->store('profile_photos', 'public');
+    }
+
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'user',
+        'profile_photo' => $profilePhotoPath,
+    ]);
+
+    return response()->json(['message' => 'User created successfully'], 201);
+}
+
     
     /**
      * Authenticate the user and return a JWT token if valid credentials are provided.
