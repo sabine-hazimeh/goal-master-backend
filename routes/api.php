@@ -11,7 +11,9 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\EmotionsController;
 use App\Http\Controllers\JournalsController;
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'registerUser']);
+Route::post('/register/consultant', [AuthController::class, 'registerConsultant'])->middleware(['auth:api', 'admin']);
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('checkAuth')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
