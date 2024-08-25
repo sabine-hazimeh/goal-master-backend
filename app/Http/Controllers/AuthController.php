@@ -127,6 +127,48 @@ public function registerConsultant(Request $request)
             'user' => $user
         ]);
     }
+    public function updateUser(Request $request)
+{
+    $rules = [
+        'name' => 'sometimes|required|string|max:255',
+        'email' => 'sometimes|required|string|email|unique:users,email,' . auth()->id(),
+        'password' => 'nullable|string|min:8',
+        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
+
+    $user = auth()->user();
+
+    if ($request->has('name')) {
+        $user->name = $request->name;
+    }
+
+    if ($request->has('email')) {
+        $user->email = $request->email;
+    }
+
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    if ($request->hasFile('profile_photo')) {
+        if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
+            \Storage::delete('public/' . $user->profile_photo);
+        }
+        $file = $request->file('profile_photo');
+        $user->profile_photo = $file->store('profile_photos', 'public');
+    }
+
+    $user->save();
+
+    return response()->json(['message' => 'Profile updated successfully'], 200);
+}
+
     
     public function logout()
     {
