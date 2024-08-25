@@ -266,4 +266,29 @@ class AuthController extends Controller
         $users = User::where('role', 'user')->get();
         return response()->json(['users' => $users], 200);
     }
+    /**
+ * Delete a consultant.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  int  $id
+ * @return \Illuminate\Http\JsonResponse
+ */
+public function deleteConsultant($id)
+{
+ 
+    $consultant = User::find($id);
+
+    if (!$consultant || $consultant->role !== 'consultant') {
+        return response()->json(['error' => 'Consultant not found or unauthorized'], 404);
+    }
+
+   
+    if ($consultant->profile_photo && \Storage::exists('public/' . $consultant->profile_photo)) {
+        \Storage::delete('public/' . $consultant->profile_photo);
+    }
+    $consultant->delete();
+
+    return response()->json(['message' => 'Consultant deleted successfully'], 200);
+}
+
 }

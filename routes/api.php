@@ -29,7 +29,7 @@ Route::middleware(['auth:api', 'checkAuth'])->group(function () {
     Route::apiResource('message', MessageController::class);
     Route::apiResource('emotions', EmotionsController::class);
     Route::apiResource('journal', JournalsController::class);
-    Route::get('consultants', [AuthController::class, 'DisplayConsultants']);
+   
     Route::get('/messages/{chat_id}', [MessageController::class, 'getMessagesByChatId']);
     Route::get('/user-journals', [JournalsController::class, 'userJournals']);
     Route::post('/chat', [ChatController::class, 'getOrCreateChat']);
@@ -38,3 +38,4 @@ Route::middleware(['auth:api', 'checkAuth'])->group(function () {
 
 Route::get('users', [AuthController::class, 'DisplayUsers'])->middleware(['auth:api', 'consultants']);
 Route::middleware(['auth:api', 'checkAuth'])->put('/profile', [AuthController::class, 'updateUser']);
+Route::get('consultants', [AuthController::class, 'DisplayConsultants'])->middleware('auth:api');
