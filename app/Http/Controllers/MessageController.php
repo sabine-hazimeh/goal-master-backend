@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Http\Requests\StoremessageRequest;
 use App\Http\Requests\UpdatemessageRequest;
+use Illuminate\Http\Request;
+
 
 class MessageController extends Controller
 {

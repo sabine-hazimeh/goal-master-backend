@@ -9,85 +9,93 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-     /**
+    /**
      * Register a new user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function registerUser(Request $request)
-{
-    $rules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|unique:users',
-        'password' => 'required|string|min:8',
-        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ];
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
 
-    $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules);
 
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $profilePhotoPath = null;
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $profilePhotoPath = $file->store('profile_photos', 'public');
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user',
+            'profile_photo' => $profilePhotoPath,
+        ]);
+
+        return response()->json(['message' => 'User created successfully'], 201);
     }
 
-    $profilePhotoPath = null;
-    if ($request->hasFile('profile_photo')) {
-        $file = $request->file('profile_photo');
-        $profilePhotoPath = $file->store('profile_photos', 'public');
+    /**
+     * Register a new consultant.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registerConsultant(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8',
+            'phone_number' => 'required|string',
+            'description' => 'required|string',
+            'experience' => 'required|integer|min:0',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $profilePhotoPath = null;
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $profilePhotoPath = $file->store('profile_photos', 'public');
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'consultant',
+            'phone_number' => $request->phone_number,
+            'description' => $request->description,
+            'experience' => $request->experience,
+            'profile_photo' => $profilePhotoPath,
+        ]);
+
+        return response()->json(['message' => 'Consultant created successfully'], 201);
     }
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => 'user',
-        'profile_photo' => $profilePhotoPath,
-    ]);
-
-    return response()->json(['message' => 'User created successfully'], 201);
-}
-public function registerConsultant(Request $request)
-{
-    $rules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|unique:users',
-        'password' => 'required|string|min:8',
-        'phone_number' => 'required|string',
-        'description' => 'required|string',
-        'experience' => 'required|integer|min:0',
-        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ];
-
-    $validator = Validator::make($request->all(), $rules);
-
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
-    }
-
-    $profilePhotoPath = null;
-    if ($request->hasFile('profile_photo')) {
-        $file = $request->file('profile_photo');
-        $profilePhotoPath = $file->store('profile_photos', 'public');
-    }
-
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => 'consultant',
-        'phone_number' => $request->phone_number,
-        'description' => $request->description,
-        'experience' => $request->experience,
-        'profile_photo' => $profilePhotoPath,
-    ]);
-
-    return response()->json(['message' => 'Consultant created successfully'], 201);
-}
-
-    
     /**
      * Authenticate the user and return a JWT token if valid credentials are provided.
      *
@@ -100,26 +108,26 @@ public function registerConsultant(Request $request)
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-    
+
         $credentials = $request->only('email', 'password');
-    
+
         try {
             $token = JWTAuth::attempt($credentials);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not create token'], 500);
         }
-    
+
         if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-    
+
         $user = JWTAuth::user();
-        $ttl = config('jwt.ttl') * 60; 
-    
+        $ttl = config('jwt.ttl') * 60;
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
@@ -127,49 +135,61 @@ public function registerConsultant(Request $request)
             'user' => $user
         ]);
     }
+
+    /**
+     * Update user profile.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateUser(Request $request)
-{
-    $rules = [
-        'name' => 'sometimes|required|string|max:255',
-        'email' => 'sometimes|required|string|email|unique:users,email,' . auth()->id(),
-        'password' => 'nullable|string|min:8',
-        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ];
-
-    $validator = Validator::make($request->all(), $rules);
-
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
-    }
-
-    $user = auth()->user();
-
-    if ($request->has('name')) {
-        $user->name = $request->name;
-    }
-
-    if ($request->has('email')) {
-        $user->email = $request->email;
-    }
-
-    if ($request->filled('password')) {
-        $user->password = Hash::make($request->password);
-    }
-
-    if ($request->hasFile('profile_photo')) {
-        if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
-            \Storage::delete('public/' . $user->profile_photo);
-        }
-        $file = $request->file('profile_photo');
-        $user->profile_photo = $file->store('profile_photos', 'public');
-    }
-
-    $user->save();
-
-    return response()->json(['message' => 'Profile updated successfully'], 200);
-}
-
+    {
+        $rules = [
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|string|email|unique:users,email,' . auth()->id(),
+            'password' => 'nullable|string|min:8',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
     
+        $validator = Validator::make($request->all(), $rules);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+    
+        $user = auth()->user();
+    
+        if ($request->has('name')) {
+            $user->name = $request->name;
+        }
+    
+        if ($request->has('email')) {
+            $user->email = $request->email;
+        }
+    
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+    
+        if ($request->hasFile('profile_photo')) {
+            if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
+                \Storage::delete('public/' . $user->profile_photo);
+            }
+            $file = $request->file('profile_photo');
+            $user->profile_photo = $file->store('profile_photos', 'public');
+        }
+    
+        $user->save();
+    
+        return response()->json(['message' => 'Profile updated successfully'], 200);
+    }
+    
+    
+    /**
+     * Logout the user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         Auth::logout();
@@ -178,6 +198,12 @@ public function registerConsultant(Request $request)
             'message' => 'Successfully logged out',
         ]);
     }
+
+    /**
+     * Refresh JWT token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function refresh()
     {
         $token = Auth::refresh();
@@ -191,7 +217,8 @@ public function registerConsultant(Request $request)
             ]
         ]);
     }
- /**
+
+    /**
      * Respond with a JWT token.
      *
      * @param  string  $token
@@ -205,6 +232,7 @@ public function registerConsultant(Request $request)
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }
+
     /**
      * Get the authenticated user's profile.
      *
@@ -213,17 +241,29 @@ public function registerConsultant(Request $request)
      */
     public function profile(Request $request)
     {
-        
         $user = Auth::user();
         return response()->json($user);
     }
-    public function DisplayConsultants(){
+
+    /**
+     * Display consultants.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function displayConsultants()
+    {
         $consultants = User::where('role', 'consultant')->get();
-        return response()->json(["consultants: ",$consultants],200);
+        return response()->json(['consultants' => $consultants], 200);
     }
 
-    public function DisplayUsers(){
+    /**
+     * Display users.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function displayUsers()
+    {
         $users = User::where('role', 'user')->get();
-        return response()->json(["users: ",$users],200);
+        return response()->json(['users' => $users], 200);
     }
 }
