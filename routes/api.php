@@ -39,3 +39,4 @@ Route::middleware(['auth:api', 'checkAuth'])->group(function () {
 Route::get('users', [AuthController::class, 'DisplayUsers'])->middleware(['auth:api', 'consultants']);
 Route::middleware(['auth:api', 'checkAuth'])->put('/profile', [AuthController::class, 'updateUser']);
 Route::get('consultants', [AuthController::class, 'DisplayConsultants'])->middleware('auth:api');
+Route::delete('/consultants/{id}', [AuthController::class, 'deleteConsultant'])->middleware('auth:api');
