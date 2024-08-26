@@ -15,7 +15,7 @@ Route::post('/register', [AuthController::class, 'registerUser']);
 Route::post('/register/consultant', [AuthController::class, 'registerConsultant'])->middleware(['auth:api', 'admin']);
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::middleware(['auth:api', 'checkAuth'])->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::get('/logout', [AuthController::class, 'logout']);
    

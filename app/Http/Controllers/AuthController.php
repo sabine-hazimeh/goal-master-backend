@@ -184,7 +184,16 @@ class AuthController extends Controller
         return response()->json(['message' => 'Profile updated successfully'], 200);
     }
     
-    
+public function show($id)
+{
+    $consultant = User::find($id);
+
+    if (!$consultant) {
+        return response()->json(['message' => 'Consultant not found.'], 404);
+    }
+
+    return response()->json(['data' => $consultant]);
+}
     /**
      * Logout the user.
      *
