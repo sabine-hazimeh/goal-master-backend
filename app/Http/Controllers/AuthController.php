@@ -183,7 +183,7 @@ class AuthController extends Controller
     
         return response()->json(['message' => 'Profile updated successfully'], 200);
     }
-    
+
 public function show($id)
 {
     $consultant = User::find($id);
@@ -194,6 +194,67 @@ public function show($id)
 
     return response()->json(['data' => $consultant]);
 }
+public function updateConsultant(Request $request, $id)
+{
+    $validator = Validator::make($request->all(), [
+        'name' => 'sometimes|string|max:255',
+        'email' => 'sometimes|email|max:255|unique:users,email,' . $id,
+        'password' => 'nullable|string|min:8',
+        'phone_number' => 'sometimes|string|max:15',
+        'experience' => 'sometimes|integer',
+        'description' => 'nullable|string',
+        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Update validation for image files
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+
+    $consultant = User::find($id);
+
+    if (!$consultant) {
+        return response()->json(['message' => 'Consultant not found.'], 404);
+    }
+
+    if ($consultant->role !== 'consultant') {
+        return response()->json(['message' => 'User is not a consultant.'], 403);
+    }
+
+    if ($request->hasFile('profile_photo')) {
+        $file = $request->file('profile_photo');
+        $profilePhotoPath = $file->store('profile_photos', 'public');
+
+        if ($consultant->profile_photo && Storage::disk('public')->exists($consultant->profile_photo)) {
+            Storage::disk('public')->delete($consultant->profile_photo);
+        }
+
+        $consultant->profile_photo = $profilePhotoPath;
+    }
+
+    if ($request->has('name')) {
+        $consultant->name = $request->input('name');
+    }
+    if ($request->has('email')) {
+        $consultant->email = $request->input('email');
+    }
+    if ($request->input('password')) {
+        $consultant->password = bcrypt($request->input('password'));
+    }
+    if ($request->has('phone_number')) {
+        $consultant->phone_number = $request->input('phone_number');
+    }
+    if ($request->has('experience')) {
+        $consultant->experience = $request->input('experience');
+    }
+    if ($request->has('description')) {
+        $consultant->description = $request->input('description');
+    }
+
+    $consultant->save();
+
+    return response()->json(['message' => 'Consultant updated successfully!', 'data' => $consultant]);
+}
+
     /**
      * Logout the user.
      *
