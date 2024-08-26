@@ -40,3 +40,4 @@ Route::get('users', [AuthController::class, 'DisplayUsers'])->middleware(['auth:
 Route::middleware(['auth:api', 'checkAuth'])->put('/profile', [AuthController::class, 'updateUser']);
 Route::get('consultants', [AuthController::class, 'DisplayConsultants'])->middleware('auth:api');
 Route::delete('/consultants/{id}', [AuthController::class, 'deleteConsultant'])->middleware('auth:api');
+Route::middleware(['auth:api', 'admin'])->get('/consultants/{id}', [AuthController::class, 'show']);
