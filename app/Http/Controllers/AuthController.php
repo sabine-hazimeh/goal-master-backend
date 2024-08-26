@@ -171,18 +171,26 @@ class AuthController extends Controller
             $user->password = Hash::make($request->password);
         }
     
-        if ($request->hasFile('profile_photo')) {
-            if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
-                \Storage::delete('public/' . $user->profile_photo);
+        if ($request->has('profile_photo')) {
+            if ($request->profile_photo === null) {
+                if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
+                    \Storage::delete('public/' . $user->profile_photo);
+                }
+                $user->profile_photo = null;
+            } elseif ($request->hasFile('profile_photo')) {
+                if ($user->profile_photo && \Storage::exists('public/' . $user->profile_photo)) {
+                    \Storage::delete('public/' . $user->profile_photo);
+                }
+                $file = $request->file('profile_photo');
+                $user->profile_photo = $file->store('profile_photos', 'public');
             }
-            $file = $request->file('profile_photo');
-            $user->profile_photo = $file->store('profile_photos', 'public');
         }
     
         $user->save();
     
         return response()->json(['message' => 'Profile updated successfully'], 200);
     }
+    
 
 public function show($id)
 {
