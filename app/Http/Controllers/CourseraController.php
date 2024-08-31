@@ -31,7 +31,7 @@ class CourseraController extends Controller
      */
     public function show(Coursera $coursera)
     {
-        //
+        return response()->json(["coursera" => $coursera], 200);
     }
 
     /**
