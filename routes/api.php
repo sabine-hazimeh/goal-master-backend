@@ -41,4 +41,4 @@ Route::middleware(['auth:api', 'checkAuth'])->post('/profile', [AuthController::
 Route::get('consultants', [AuthController::class, 'DisplayConsultants'])->middleware('auth:api');
 Route::delete('/consultants/{id}', [AuthController::class, 'deleteConsultant'])->middleware('auth:api');
 Route::middleware(['auth:api', 'admin'])->get('/consultants/{id}', [AuthController::class, 'show']);
-Route::middleware(['auth:api', 'admin'])->post('/consultants/{id}', [AuthController::class, 'updateConsultant']);
+Route::middleware('auth:api')->post('/consultants/{id}', [AuthController::class, 'updateConsultant']);
