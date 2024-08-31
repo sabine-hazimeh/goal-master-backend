@@ -13,7 +13,8 @@ class CourseraController extends Controller
      */
     public function index()
     {
-        //
+       $courseras = Coursera::all();
+       return response()->json(["courseras" => $courseras], 200);
     }
 
     /**
