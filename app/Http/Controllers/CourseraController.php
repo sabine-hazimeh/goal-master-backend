@@ -48,6 +48,7 @@ class CourseraController extends Controller
      */
     public function destroy(Coursera $coursera)
     {
-        //
+        $coursera->delete();
+        return response()->json(['message' => 'Coursera deleted successfully'], 204);
     }
 }
