@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use App\Models\Coursera;
 class CourseraSeeder extends Seeder
 {
     /**
@@ -12,6 +12,6 @@ class CourseraSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Coursera::factory(50)->create();
     }
 }
