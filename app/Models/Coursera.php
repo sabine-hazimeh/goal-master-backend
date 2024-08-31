@@ -16,4 +16,9 @@ class Coursera extends Model
        "hours",
        "level"   
     ];
+
+    public function education()
+    {
+        return $this->belongsTo(EducationGoal::class);
+    }
 }
