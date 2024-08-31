@@ -11,7 +11,7 @@ class StoreCourseraRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreCourseraRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'hours' => 'required|integer|min:1',
+            'level' => 'required|in:Beginner level,Intermediate level,Advanced level',
+            'url' => 'required|url|max:255',
+            'education_id' => 'required|exists:education_goals,id',
         ];
     }
 }
