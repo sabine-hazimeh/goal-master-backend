@@ -35,19 +35,12 @@ class CourseraController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Coursera $coursera)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCourseraRequest $request, Coursera $coursera)
     {
-        //
+        $coursera->update($request->validated());
+        return response()->json(["coursera" => $coursera], 200);
     }
 
     /**
