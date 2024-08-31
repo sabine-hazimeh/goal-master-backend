@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Coursera extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+       "title",
+       "url",
+       "education_id",
+       "hours",
+       "level"   
+    ];
 }
