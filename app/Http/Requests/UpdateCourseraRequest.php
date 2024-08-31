@@ -11,7 +11,7 @@ class UpdateCourseraRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateCourseraRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+          'title' => 'sometimes|string|max:255',
+            'hours' => 'sometimes|integer|min:1',
+            'level' => 'sometimes|in:Beginner level,Intermediate level,Advanced level',
+            'url' => 'sometimes|url|max:255',
+            'education_id' => 'sometimes|exists:education_goals,id',
         ];
     }
 }
