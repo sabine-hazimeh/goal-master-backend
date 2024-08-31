@@ -17,11 +17,11 @@ class CourseraFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'->faker->sentence(5),
-            'hours'->faker->numberBetween(1, 100),
-            'level'->faker->randomElement(['Beginner level', 'Intermediate level', 'Advanced level']),
-            'url'->faker->url(),
-            'education_id'=> EducationGoal::inRandomOrder()->first()->id,
+            'title' => $this->faker->sentence(5),
+            'hours' => $this->faker->numberBetween(1, 100),
+            'level' => $this->faker->randomElement(['Beginner level', 'Intermediate level', 'Advanced level']),
+            'url' => $this->faker->url(),
+            'education_id' => EducationGoal::inRandomOrder()->first()->id,
 
         ];
     }
