@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('courseras', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->integer('hours');
+            $table->enum('level', ['Beginner level', 'Intermediate level', 'Advanced level']);
+            $table->string('url');
+            $table->unsignedBigInteger('education_id');
+            $table->foreign('education_id')->references('id')->on('education_goals')->onDelete('cascade')->onUpdate("cascade");
             $table->timestamps();
         });
     }
