@@ -10,12 +10,13 @@ class Coursera extends Model
     use HasFactory;
 
     protected $fillable = [
-       "title",
-       "url",
-       "education_id",
-       "hours",
-       "level"   
+      'title',
+        'hours',
+        'level',
+        'url',
+        'education_id',
     ];
+    
 
     public function education()
     {
