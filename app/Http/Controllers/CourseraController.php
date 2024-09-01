@@ -51,4 +51,9 @@ class CourseraController extends Controller
         $coursera->delete();
         return response()->json(['message' => 'Coursera deleted successfully'], 204);
     }
+    public function getCoursesByEducationId($education_id)
+    {
+        $courses = Coursera::where('education_id', $education_id)->get();
+        return response()->json(["courses" => $courses], 200);
+    }
 }
