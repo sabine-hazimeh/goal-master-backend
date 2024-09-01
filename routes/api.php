@@ -36,6 +36,7 @@ Route::middleware(['auth:api', 'checkAuth'])->group(function () {
     Route::get('/chat/{chat_id}/messages', [ChatController::class, 'getMessages']);
     Route::apiResource('coursera', CourseraController::class);
     Route::get('/goals', [EducationGoalController::class, 'DisplayEducationGoal']);
+    Route::get('/coursera/education/{education_id}', [CourseraController::class, 'getCoursesByEducationId']);
 });
 
 Route::get('users', [AuthController::class, 'DisplayUsers'])->middleware(['auth:api', 'consultants']);
