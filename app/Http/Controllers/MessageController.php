@@ -6,6 +6,8 @@ use App\Models\Message;
 use App\Http\Requests\StoremessageRequest;
 use App\Http\Requests\UpdatemessageRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Events\MessageSent;
 
 
 class MessageController extends Controller
@@ -19,15 +21,15 @@ class MessageController extends Controller
         return response()->json(["message" => $message], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoremessageRequest $request)
     {
         $validatedData = $request->validated();
         $validatedData['sender_id'] = auth()->id();
-        $message = Message::create($validatedData);
-        return response()->json(["message" => $message], 201);
+        $message = Message::create($validatedData);  
+
+        return response()->json(['message' => $message], 201);
+        
     }
 
     /**
@@ -61,5 +63,22 @@ class MessageController extends Controller
     {
         $messages = Message::where('chat_id', $chat_id)->get();
         return response()->json(["messages" => $messages], 200);
+    }
+
+    // to fetch messages by user
+
+    public function getMessages($userId)
+    {
+        $messages = Message::where(function ($query) use ($userId) {
+            $query->where('sender_id', auth()->id())
+                  ->orWhere('receiver_id', auth()->id());
+        })
+        ->where(function ($query) use ($userId) {
+            $query->where('sender_id', $userId)
+                  ->orWhere('receiver_id', $userId);
+        })
+        ->get();
+
+        return response()->json($messages);
     }
 }

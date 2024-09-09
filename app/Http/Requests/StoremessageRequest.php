@@ -24,6 +24,7 @@ class StoremessageRequest extends FormRequest
         return [
             "chat_id" => "required|exists:chats,id",
             "content" => "required|string|max:255",
+            "receiver_id" => "required|exists:users,id",
         ];
       
     }
