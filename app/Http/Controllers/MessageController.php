@@ -28,8 +28,10 @@ class MessageController extends Controller
         $validatedData['sender_id'] = auth()->id();
         $message = Message::create($validatedData);  
 
+        broadcast(new MessageSent($message))->toOthers();
+
         return response()->json(['message' => $message], 201);
-        
+
     }
 
     /**
