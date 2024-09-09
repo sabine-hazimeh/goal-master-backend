@@ -23,6 +23,10 @@ class MessageSent implements ShouldBroadcast
     {
         return new Channel('chat.' . $this->message->chat_id);
     }
+
+    public function broadcastAs(){
+        return 'message.sent';  
+    }  
     
 
 
