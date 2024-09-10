@@ -88,16 +88,15 @@ class ChatController extends Controller
         $messages = message::where('chat_id', $chat_id)->get();
         return response()->json(["messages" => $messages], 200);
     }
-    public function getUserChats()
-{
-    $authUserId = auth()->id();
-
-    $chats = Chat::where('user_id', $authUserId)
-                ->orWhere('consultant_id', $authUserId)
-                ->orderBy('created_at', 'desc')
-                ->get();
-
-    return response()->json($chats);
-}
+    public function getUserChats(Request $request)
+    {
+        $userId = auth()->id(); 
+        $chats = Chat::where('user_id', $userId)
+                    ->orWhere('consultant_id', $userId)
+                    ->with(['user', 'consultant']) 
+                    ->get();
+    
+        return response()->json($chats);
+    }
 
 }
