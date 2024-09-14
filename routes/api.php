@@ -46,3 +46,4 @@ Route::get('consultants', [AuthController::class, 'DisplayConsultants'])->middle
 Route::delete('/consultants/{id}', [AuthController::class, 'deleteConsultant'])->middleware('auth:api');
 Route::middleware(['auth:api', 'admin'])->get('/consultants/{id}', [AuthController::class, 'show']);
 Route::middleware('auth:api')->post('/consultants/{id}', [AuthController::class, 'updateConsultant']);
+Route::get('admin-consultants', [AuthController::class, 'DisplayConsultants'])->middleware(['auth:api', 'admin']);
