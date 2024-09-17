@@ -20,5 +20,10 @@ class EducationGoal extends Model
     {
         return $this->belongsTo(Goal::class);
     }
+    
+    public function coursera()
+    {
+        return $this->hasMany(Coursera::class);
+    }
 
 }

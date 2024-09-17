@@ -66,4 +66,15 @@ class EducationGoalController extends Controller
         }
         return response()->json(["message" => "EducationGoal and corresponding Goal deleted successfully"], 200);
     }
+
+    public function DisplayEducationGoal()
+    {
+        $userId = auth()->id();
+        $educationGoals = EducationGoal::whereHas('goal', function($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+    
+        return response()->json(['educationGoal' => $educationGoals], 200);
+    }
+    
 }

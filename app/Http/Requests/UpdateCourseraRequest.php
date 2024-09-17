@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoremessageRequest extends FormRequest
+class UpdateCourseraRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,11 @@ class StoremessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "chat_id" => "required|exists:chats,id",
-            "content" => "required|string|max:255",
-            "receiver_id" => "required|exists:users,id",
+          'title' => 'sometimes|string|max:255',
+            'hours' => 'sometimes|integer|min:1',
+            'level' => 'sometimes|in:Beginner level,Intermediate level,Advanced level',
+            'url' => 'sometimes|url|max:255',
+            'education_id' => 'sometimes|exists:education_goals,id',
         ];
-      
     }
 }
