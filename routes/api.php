@@ -50,3 +50,4 @@ Route::get('admin-consultants', [AuthController::class, 'DisplayConsultants'])->
 Route::get('/env', function () {
     return env('PUSHER_APP_KEY');
 });
+Route::get('/api/sentiment', [EmotionsController::class, 'getSentimentData']);
