@@ -47,7 +47,4 @@ Route::delete('/consultants/{id}', [AuthController::class, 'deleteConsultant'])-
 Route::middleware(['auth:api', 'admin'])->get('/consultants/{id}', [AuthController::class, 'show']);
 Route::middleware('auth:api')->post('/consultants/{id}', [AuthController::class, 'updateConsultant']);
 Route::get('admin-consultants', [AuthController::class, 'DisplayConsultants'])->middleware(['auth:api', 'admin']);
-Route::get('/env', function () {
-    return env('PUSHER_APP_KEY');
-});
-Route::get('/api/sentiment', [EmotionsController::class, 'getSentimentData']);
+Route::get('/sentiment', [EmotionsController::class, 'getSentimentData'])->middleware(['auth:api', 'admin']);

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Emotions;
 use App\Http\Requests\StoreEmotionsRequest;
 use App\Http\Requests\UpdateEmotionsRequest;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class EmotionsController extends Controller
 {
@@ -52,13 +55,13 @@ class EmotionsController extends Controller
     }
     public function getSentimentData()
     {
-        // Query to get the data from the emotions table
+        
         $data = DB::table('emotions')
                     ->select('emotion', 'created_at')
                     ->where('type', 'detected')
                     ->get();
 
-        // Emotion mapping
+        
         $emotionMapping = [
             'happy' => 2,
             'neutral' => 0,
@@ -67,14 +70,14 @@ class EmotionsController extends Controller
             'surprised' => 1,
         ];
 
-        // Transforming data
+       
         $data->transform(function ($item) use ($emotionMapping) {
             $item->sentiment_score = $emotionMapping[$item->emotion] ?? 0;
             $item->created_at = Carbon::parse($item->created_at)->toDateString();
             return $item;
         });
 
-        // Grouping data by date and calculating average sentiment score
+        
         $sentimentOverTime = $data->groupBy('created_at')->map(function ($group) {
             return [
                 'date' => $group->first()->created_at,
